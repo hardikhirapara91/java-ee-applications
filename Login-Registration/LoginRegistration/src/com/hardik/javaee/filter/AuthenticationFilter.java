@@ -13,11 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 /**
  * AuthenticationFilter Servlet Filter
  */
 @WebFilter("/AuthenticationFilter")
 public class AuthenticationFilter implements Filter {
+
+	static Logger logger = Logger.getLogger(AuthenticationFilter.class);
 
 	/**
 	 * Default constructor.
@@ -31,6 +36,8 @@ public class AuthenticationFilter implements Filter {
 	@Override
 	public void init(FilterConfig fConfig) throws ServletException {
 		System.out.println("AuthenticationFilter initialized");
+		PropertyConfigurator.configure(getClass().getResourceAsStream("/resources/log4j.properties"));
+		logger.debug("Log4j properties configured successfully.");
 	}
 
 	/**
@@ -46,8 +53,8 @@ public class AuthenticationFilter implements Filter {
 		HttpSession session = req.getSession(false);
 
 		if (session == null && !(uri.endsWith("jsp") || uri.endsWith("Login") || uri.endsWith("Register"))) {
-			System.out.println("Unauthorized access request");
-			res.sendRedirect("login.html");
+			logger.error("Unauthorized access request");
+			res.sendRedirect("index.jsp");
 		} else {
 			// pass the request along the filter chain
 			chain.doFilter(request, response);
@@ -59,7 +66,7 @@ public class AuthenticationFilter implements Filter {
 	 */
 	@Override
 	public void destroy() {
-		System.out.println("AuthenticationFilter destroyed.");
+		logger.debug("AuthenticationFilter destroyed.");
 	}
 
 }

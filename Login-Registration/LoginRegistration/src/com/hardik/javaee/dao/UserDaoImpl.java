@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+
 import com.hardik.javaee.bean.User;
 import com.hardik.javaee.util.DbUtils;
 
@@ -17,6 +19,7 @@ import com.hardik.javaee.util.DbUtils;
  */
 public class UserDaoImpl implements UserDao {
 
+	static Logger logger = Logger.getLogger(UserDaoImpl.class);
 	private DbUtils dbUtils = new DbUtils();
 
 	/**
@@ -24,6 +27,8 @@ public class UserDaoImpl implements UserDao {
 	 */
 	@Override
 	public User validateUser(String username, String password) {
+		logger.debug("Validating User with credentials.");
+
 		User user = new User();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -44,8 +49,9 @@ public class UserDaoImpl implements UserDao {
 				user.setLastName(resultSet.getString("lastname"));
 				user.setEmail(resultSet.getString("email"));
 			}
+			logger.debug("User validated successfully.");
 		} catch (SQLException ex) {
-			System.out.println("Exception: " + ex);
+			logger.error("Exception while validating user: ", ex);
 		} finally {
 			try {
 				if (resultSet != null) {
@@ -55,8 +61,9 @@ public class UserDaoImpl implements UserDao {
 					statement.close();
 				}
 				dbUtils.closeConnection();
+				logger.debug("Closed successfully ResultSet, PreparedStatement & DbConnection.");
 			} catch (SQLException ex) {
-				System.out.println("Exception: " + ex);
+				logger.error("Exception while closing ResultSet, PreparedStatement & DbConnection: ", ex);
 			}
 		}
 
@@ -68,6 +75,8 @@ public class UserDaoImpl implements UserDao {
 	 */
 	@Override
 	public User saveUser(User user) {
+		logger.debug("Saving user in database...");
+
 		Connection connection = null;
 		PreparedStatement statement = null;
 		String query = "INSERT INTO `user`(`username`,`password`,`firstName`,`lastName`,`email`) VALUES(?,?,?,?,?)";
@@ -88,16 +97,18 @@ public class UserDaoImpl implements UserDao {
 					user.setId(resultSet.getInt(1));
 				}
 			}
+			logger.debug("User saved successfully in database.");
 		} catch (SQLException ex) {
-			System.out.println("Exception: " + ex);
+			logger.error("Exception while saving user to database: ", ex);
 		} finally {
 			try {
 				if (statement != null) {
 					statement.close();
+					logger.debug("PreparedStatement closed successfully.");
 				}
 				dbUtils.closeConnection();
 			} catch (SQLException ex) {
-				System.out.println("Exception: " + ex);
+				logger.error("Exception while closing DbConnection or PreparedStatment: ", ex);
 			}
 		}
 		return user;

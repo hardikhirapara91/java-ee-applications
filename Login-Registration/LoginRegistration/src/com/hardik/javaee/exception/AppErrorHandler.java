@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 /**
  * Application Error Handler
  * 
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/AppErrorHandler")
 public class AppErrorHandler extends HttpServlet {
 
+	static Logger logger = Logger.getLogger(AppErrorHandler.class);
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -46,6 +49,7 @@ public class AppErrorHandler extends HttpServlet {
 	 * @throws IOException
 	 */
 	public void processError(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		logger.error("AppErrorHandler called while Exception occurred.");
 
 		// Analyze the servlet exception
 		String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");

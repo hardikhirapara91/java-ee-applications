@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.hardik.javaee.bean.User;
 import com.hardik.javaee.dao.UserDao;
 import com.hardik.javaee.dao.UserDaoImpl;
@@ -18,6 +20,8 @@ import com.hardik.javaee.dao.UserDaoImpl;
  */
 @WebServlet("/Registration")
 public class Registration extends HttpServlet {
+
+	static Logger logger = Logger.getLogger(Registration.class);
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -26,6 +30,7 @@ public class Registration extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		logger.debug("Registering User...");
 		HttpSession session = request.getSession(true);
 
 		User user = new User();
@@ -40,8 +45,10 @@ public class Registration extends HttpServlet {
 		session.setAttribute("user", user);
 
 		if (user.getId() > 0) {
+			logger.debug("User registered successfully.");
 			response.sendRedirect("welcome.jsp");
 		} else {
+			logger.error("Error while user registration.");
 			session.setAttribute("error", "User registration failed. Please contact administrator.");
 			response.sendRedirect("registration.jsp");
 		}

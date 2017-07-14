@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 /**
  * DB Util
  * 
@@ -12,6 +14,7 @@ import java.sql.SQLException;
  */
 public class DbUtils {
 
+	static Logger logger = Logger.getLogger(DbUtils.class);
 	private Connection connection = null;
 
 	/**
@@ -20,15 +23,16 @@ public class DbUtils {
 	 * @return
 	 */
 	public Connection getConnection() {
+		logger.debug("Initializing db connection...");
 		if (connection == null) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				connection = DriverManager.getConnection(
 						PropertyUtil.getProperty("URL") + PropertyUtil.getProperty("DB_NAME"),
 						PropertyUtil.getProperty("USERNAME"), PropertyUtil.getProperty("PASSWORD"));
-				System.out.println("DB Connection Created Successfully...");
+				logger.debug("DB Connection Created Successfully...");
 			} catch (SQLException | ClassNotFoundException ex) {
-				System.out.println("ERROR: DB Connection: " + ex);
+				logger.error("Exception while initializing database connection: ", ex);
 			}
 		}
 
@@ -42,8 +46,9 @@ public class DbUtils {
 		if (connection != null) {
 			try {
 				connection.close();
+				logger.debug("Database connection closed successfully.");
 			} catch (SQLException ex) {
-				System.out.println("Exception while closing db connection: " + ex);
+				logger.error("Exception while closing db connection: ", ex);
 			}
 		}
 	}

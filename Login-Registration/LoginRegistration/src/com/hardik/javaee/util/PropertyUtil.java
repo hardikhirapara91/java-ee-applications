@@ -3,6 +3,8 @@ package com.hardik.javaee.util;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 /**
  * Property Util
  * 
@@ -11,6 +13,7 @@ import java.util.Properties;
  */
 public class PropertyUtil {
 
+	static Logger logger = Logger.getLogger(PropertyUtil.class);
 	private static Properties prop = null;
 
 	public PropertyUtil() {
@@ -18,9 +21,9 @@ public class PropertyUtil {
 			try {
 				prop = new Properties();
 				prop.load(PropertyUtil.class.getClassLoader().getResourceAsStream("resources/db.properties"));
-				System.out.println("Property file loaded successfully.");
-			} catch (IOException e) {
-				e.printStackTrace();
+				logger.debug("Property file loaded successfully.");
+			} catch (IOException ex) {
+				logger.error("IOException while loading property file: ", ex);
 			}
 		}
 	}
@@ -33,11 +36,9 @@ public class PropertyUtil {
 	 */
 	public static String getProperty(String key) {
 		new PropertyUtil();
-
 		if (prop != null) {
 			return prop.getProperty(key);
 		}
-
 		return null;
 	}
 }

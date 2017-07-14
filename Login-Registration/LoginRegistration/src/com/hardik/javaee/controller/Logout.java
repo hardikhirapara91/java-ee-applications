@@ -9,11 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 /**
  * Logout Servlet
  */
 @WebServlet("/Logout")
 public class Logout extends HttpServlet {
+
+	static Logger logger = Logger.getLogger(Logout.class);
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -33,6 +37,7 @@ public class Logout extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		logger.debug("User successfully logout.");
 		HttpSession session = request.getSession(false);
 		session.removeAttribute("user");
 		session.invalidate();
