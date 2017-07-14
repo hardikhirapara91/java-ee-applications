@@ -1,12 +1,19 @@
 package com.hardik.javaee.bean;
 
+import java.io.Serializable;
+
 /**
  * User Bean
  * 
  * @author HARDIK HIRAPARA
  *
  */
-public class User {
+public class User implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private int id;
 	private String username;

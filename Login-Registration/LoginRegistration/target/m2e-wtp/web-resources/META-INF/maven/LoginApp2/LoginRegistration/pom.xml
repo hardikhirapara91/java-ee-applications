@@ -39,6 +39,7 @@
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<finalName>LoginRegistration</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
