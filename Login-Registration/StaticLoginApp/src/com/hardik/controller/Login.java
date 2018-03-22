@@ -21,8 +21,7 @@ public class Login extends HttpServlet {
 	private RequestDispatcher requestDispatcher;
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * POST
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

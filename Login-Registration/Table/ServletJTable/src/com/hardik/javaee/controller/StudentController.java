@@ -53,9 +53,9 @@ public class StudentController extends HttpServlet {
 			String jsonArray = gson.toJson(JSONROOT);
 			System.out.println(jsonArray);
 			response.getWriter().print(jsonArray);
-		} catch (Exception e) {
+		} catch (Exception ex) {
 			JSONROOT.put("Result", "ERROR");
-			JSONROOT.put("Message", e.getMessage());
+			JSONROOT.put("Message", ex.getMessage());
 			String error = gson.toJson(JSONROOT);
 			response.getWriter().print(error);
 		}

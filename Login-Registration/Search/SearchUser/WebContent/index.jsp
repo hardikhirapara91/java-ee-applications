@@ -13,7 +13,7 @@
     <meta name="author" content="Hardik Hirapara">
     <link rel="icon" href="img/favicon.ico">
 
-    <title>JavaEE Login Application</title>
+    <title>JavaEE Search User Application</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
